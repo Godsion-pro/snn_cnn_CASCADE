@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19cm" height="22cm" viewBox="0 0 760 880" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="av" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5F6368"/>
+    </marker>
+    <filter id="ds" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="760" height="880" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="380" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#202124">SNN Data Flow</text>
+  <text x="380" y="66" text-anchor="middle" font-size="15" fill="#5F6368">2-layer Fully-Connected LIF SNN  ·  FC1 144→8, FC2 8→2</text>
+
+  <!-- 1. Input -->
+  <g filter="url(#ds)"><rect x="100" y="86" width="560" height="72" rx="9" fill="#FFFFFF" stroke="#1A73E8" stroke-width="2.2"/></g>
+  <text x="380" y="110" text-anchor="middle" font-size="16" font-weight="700" fill="#1A56C4">① Input — Motion Feature Vector (144-D)</text>
+  <g fill="#F9AB00" stroke="#B06000" stroke-width="0.6">
+    <rect x="232" y="120" width="13" height="13"/><rect x="247" y="120" width="13" height="13"/><rect x="262" y="120" width="13" height="13"/><rect x="277" y="120" width="13" height="13"/><rect x="292" y="120" width="13" height="13"/><rect x="307" y="120" width="13" height="13"/><rect x="322" y="120" width="13" height="13"/><rect x="337" y="120" width="13" height="13"/><rect x="352" y="120" width="13" height="13"/><rect x="367" y="120" width="13" height="13"/><rect x="382" y="120" width="13" height="13"/><rect x="397" y="120" width="13" height="13"/><rect x="412" y="120" width="13" height="13"/><rect x="427" y="120" width="13" height="13"/><rect x="442" y="120" width="13" height="13"/><rect x="457" y="120" width="13" height="13"/><rect x="472" y="120" width="13" height="13"/><rect x="487" y="120" width="13" height="13"/>
+  </g>
+  <text x="380" y="150" text-anchor="middle" font-size="12.5" fill="#3C4043">16×9 blocks · 3-bit  ·  Sliding Window 20 frames</text>
+
+  <!-- arrow -->
+  <line x1="380" y1="158" x2="380" y2="184" stroke="#5F6368" stroke-width="2.4" marker-end="url(#av)"/>
+  <text x="392" y="176" font-size="12.5" font-weight="700" fill="#8430CE">× 20 timesteps (1 frame / step)</text>
+
+  <!-- 2. LIF rule box -->
+  <g filter="url(#ds)"><rect x="100" y="186" width="560" height="150" rx="9" fill="#F8F2FE" stroke="#8430CE" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+  <text x="380" y="210" text-anchor="middle" font-size="15" font-weight="700" fill="#7B1FA2">LIF Neuron — 매 timestep 막전위 갱신 (FC1·FC2 공통)</text>
+  <text x="380" y="248" text-anchor="middle" font-size="20" font-weight="700" fill="#202124">V[t] = (7/8)·V[t−1] + Σ wᵢ xᵢ</text>
+  <text x="300" y="270" text-anchor="middle" font-size="11.5" fill="#8430CE">leak (decay)</text>
+  <text x="470" y="270" text-anchor="middle" font-size="11.5" fill="#8430CE">integrate</text>
+  <text x="380" y="298" text-anchor="middle" font-size="14" fill="#202124">V[t] ≥ θ  →  spike = 1, V ← 0   (fire &amp; reset)</text>
+  <text x="380" y="322" text-anchor="middle" font-size="13" fill="#3C4043">else → V 유지      |      leak = (V×7) &gt;&gt; 3  (shift-add)</text>
+
+  <!-- arrow -->
+  <line x1="380" y1="336" x2="380" y2="362" stroke="#5F6368" stroke-width="2.4" marker-end="url(#av)"/>
+
+  <!-- 3. FC1 -->
+  <g filter="url(#ds)"><rect x="100" y="364" width="560" height="92" rx="9" fill="#FFFFFF" stroke="#188038" stroke-width="2.4"/></g>
+  <text x="380" y="390" text-anchor="middle" font-size="16" font-weight="700" fill="#0F7B34">② FC1 : 144 → 8  (LIF, θ = fc1_thr)</text>
+  <g>
+    <circle cx="150" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="216" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="282" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="348" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="414" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="480" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="546" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+    <circle cx="612" cy="430" r="13" fill="#C8E6C9" stroke="#188038" stroke-width="1.6"/>
+  </g>
+
+  <!-- arrow -->
+  <line x1="380" y1="456" x2="380" y2="482" stroke="#5F6368" stroke-width="2.4" marker-end="url(#av)"/>
+  <text x="392" y="474" font-size="12.5" font-weight="700" fill="#0F7B34">8 spikes (0 / 1)</text>
+
+  <!-- 4. FC2 -->
+  <g filter="url(#ds)"><rect x="100" y="484" width="560" height="82" rx="9" fill="#FFFFFF" stroke="#188038" stroke-width="2.4"/></g>
+  <text x="380" y="510" text-anchor="middle" font-size="16" font-weight="700" fill="#0F7B34">③ FC2 : 8 → 2  (LIF, θ = fc2_thr)</text>
+  <circle cx="320" cy="542" r="15" fill="#C8E6C9" stroke="#188038" stroke-width="1.8"/>
+  <circle cx="440" cy="542" r="15" fill="#C8E6C9" stroke="#188038" stroke-width="1.8"/>
+
+  <!-- arrow -->
+  <line x1="380" y1="566" x2="380" y2="592" stroke="#5F6368" stroke-width="2.4" marker-end="url(#av)"/>
+
+  <!-- 5. Spike accumulation -->
+  <g filter="url(#ds)"><rect x="100" y="594" width="560" height="70" rx="9" fill="#FEF7E0" stroke="#F9AB00" stroke-width="2.2"/></g>
+  <text x="380" y="619" text-anchor="middle" font-size="15.5" font-weight="700" fill="#B06000">④ Spike Accumulation — 20 timestep 누적 (rate coding)</text>
+  <text x="380" y="645" text-anchor="middle" font-size="13.5" fill="#3C4043">spike_count_0     /     spike_count_1</text>
+
+  <!-- arrow -->
+  <line x1="380" y1="664" x2="380" y2="690" stroke="#5F6368" stroke-width="2.4" marker-end="url(#av)"/>
+
+  <!-- 6. Decision -->
+  <g filter="url(#ds)"><rect x="100" y="692" width="560" height="82" rx="9" fill="#FFFFFF" stroke="#5F6368" stroke-width="2.2"/></g>
+  <text x="380" y="717" text-anchor="middle" font-size="16" font-weight="700" fill="#3C4043">⑤ Decision — result = argmax</text>
+  <text x="380" y="742" text-anchor="middle" font-size="13.5" fill="#3C4043">spk_cnt0 &gt; spk_cnt1  →  <tspan font-weight="700" fill="#188038">Flying</tspan>      |      otherwise  →  <tspan font-weight="700" fill="#C5221F">Non-flying</tspan></text>
+
+  <!-- arrow -->
+  <line x1="380" y1="774" x2="380" y2="800" stroke="#5F6368" stroke-width="2.4" marker-end="url(#av)"/>
+
+  <!-- 7. done -->
+  <g filter="url(#ds)"><rect x="210" y="802" width="340" height="50" rx="9" fill="#FCE8E6" stroke="#C5221F" stroke-width="2.2"/></g>
+  <text x="380" y="833" text-anchor="middle" font-size="16" font-weight="700" fill="#B31412">done ▲  →  CNN 트리거</text>
+
+  <!-- footer -->
+  <text x="380" y="872" text-anchor="middle" font-size="12.5" fill="#5F6368">snnTorch(Python) 모델링·최적화  →  RTL 직접 설계 · IP화 (HW 구현)</text>
+</svg>

@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1720" height="660" viewBox="0 0 1720 660" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#3C4043"/>
+    </marker>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1720" height="660" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="860" y="46" text-anchor="middle" font-size="30" font-weight="700" fill="#202124">Frame-Difference → Spiking Neural Network 데이터 처리 흐름</text>
+  <text x="860" y="76" text-anchor="middle" font-size="16" fill="#5F6368">160×90 gray-8 입력에서 SNN 코어 추론까지 (event-driven motion → spike inference)</text>
+
+  <!-- ============ Stage 1 : Input ============ -->
+  <g filter="url(#sh)">
+    <rect x="30" y="150" width="250" height="330" rx="14" fill="#E8F0FE" stroke="#4285F4" stroke-width="2.5"/>
+  </g>
+  <text x="50" y="184" font-size="18" font-weight="700" fill="#1A56C4">① Input Frames</text>
+  <!-- two frame icons -->
+  <rect x="70" y="208" width="120" height="74" rx="4" fill="#FFFFFF" stroke="#4285F4" stroke-width="1.6"/>
+  <rect x="92" y="226" width="120" height="74" rx="4" fill="#FFFFFF" stroke="#4285F4" stroke-width="2"/>
+  <g stroke="#AFC6F5" stroke-width="0.8">
+    <line x1="122" y1="226" x2="122" y2="300"/><line x1="152" y1="226" x2="152" y2="300"/><line x1="182" y1="226" x2="182" y2="300"/>
+    <line x1="92" y1="250" x2="212" y2="250"/><line x1="92" y1="274" x2="212" y2="274"/>
+  </g>
+  <text x="50" y="330" font-size="14" fill="#202124">160 × 90, gray-8</text>
+  <text x="50" y="356" font-size="13" font-weight="700" fill="#1A56C4">sliding window</text>
+  <text x="50" y="378" font-size="13" fill="#3C4043">prev = frame[k]</text>
+  <text x="50" y="398" font-size="13" fill="#3C4043">curr = frame[k+1]</text>
+  <text x="50" y="430" font-size="12" fill="#5F6368">카메라 →</text>
+  <text x="50" y="448" font-size="12" fill="#5F6368">downscale gray</text>
+
+  <!-- arrow 1->2 -->
+  <line x1="282" y1="315" x2="328" y2="315" stroke="#3C4043" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="305" y="302" text-anchor="middle" font-size="11.5" fill="#5F6368">160×90 ×2</text>
+  <text x="305" y="338" text-anchor="middle" font-size="11.5" fill="#5F6368">8-bit</text>
+
+  <!-- ============ Stage 2 : Frame Diff ============ -->
+  <g filter="url(#sh)">
+    <rect x="332" y="150" width="238" height="330" rx="14" fill="#FCE8E6" stroke="#EA4335" stroke-width="2.5"/>
+  </g>
+  <text x="352" y="184" font-size="18" font-weight="700" fill="#C5221F">② Frame Difference</text>
+  <text x="352" y="210" font-size="12.5" fill="#5F6368">(axis_frame_diff)</text>
+  <rect x="352" y="228" width="198" height="58" rx="8" fill="#FFFFFF" stroke="#EA4335" stroke-width="1.6"/>
+  <text x="451" y="255" text-anchor="middle" font-size="15" font-weight="700" fill="#202124">| curr − prev | ≥ θ</text>
+  <text x="451" y="276" text-anchor="middle" font-size="12.5" fill="#C5221F">θ = 30</text>
+  <text x="352" y="312" font-size="13" fill="#3C4043">SOF 정렬 후 픽셀쌍 비교</text>
+  <text x="352" y="334" font-size="13" font-weight="700" fill="#202124">→ 1-bit 모션 맵</text>
+  <!-- motion map icon -->
+  <rect x="382" y="352" width="138" height="86" rx="4" fill="#FFFFFF" stroke="#EA4335" stroke-width="1.6"/>
+  <g fill="#EA4335">
+    <rect x="402" y="368" width="9" height="9"/><rect x="420" y="392" width="9" height="9"/><rect x="447" y="376" width="9" height="9"/>
+    <rect x="470" y="404" width="9" height="9"/><rect x="438" y="416" width="9" height="9"/><rect x="486" y="384" width="9" height="9"/>
+    <rect x="414" y="410" width="9" height="9"/><rect x="462" y="366" width="9" height="9"/>
+  </g>
+  <text x="451" y="456" text-anchor="middle" font-size="11" fill="#5F6368">움직인 픽셀 = 1</text>
+
+  <!-- arrow 2->3 -->
+  <line x1="572" y1="315" x2="618" y2="315" stroke="#3C4043" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="595" y="302" text-anchor="middle" font-size="11.5" fill="#5F6368">160×90</text>
+  <text x="595" y="338" text-anchor="middle" font-size="11.5" fill="#5F6368">1-bit</text>
+
+  <!-- ============ Stage 3 : Feature Extractor ============ -->
+  <g filter="url(#sh)">
+    <rect x="622" y="150" width="270" height="330" rx="14" fill="#FEF7E0" stroke="#F9AB00" stroke-width="2.5"/>
+  </g>
+  <text x="642" y="184" font-size="18" font-weight="700" fill="#B06000">③ Feature Extractor</text>
+  <!-- block grid 16x9 -->
+  <g>
+    <rect x="642" y="202" width="160" height="92" rx="3" fill="#FFFFFF" stroke="#F9AB00" stroke-width="1.6"/>
+    <g stroke="#F4D283" stroke-width="0.7">
+      <line x1="662" y1="202" x2="662" y2="294"/><line x1="682" y1="202" x2="682" y2="294"/><line x1="702" y1="202" x2="702" y2="294"/>
+      <line x1="722" y1="202" x2="722" y2="294"/><line x1="742" y1="202" x2="742" y2="294"/><line x1="762" y1="202" x2="762" y2="294"/><line x1="782" y1="202" x2="782" y2="294"/>
+      <line x1="642" y1="222" x2="802" y2="222"/><line x1="642" y1="242" x2="802" y2="242"/><line x1="642" y1="262" x2="802" y2="262"/><line x1="642" y1="282" x2="802" y2="282"/>
+    </g>
+    <rect x="682" y="242" width="20" height="20" fill="#F9AB00" fill-opacity="0.55" stroke="#B06000" stroke-width="1.2"/>
+  </g>
+  <text x="812" y="232" font-size="12.5" fill="#3C4043">16 × 9</text>
+  <text x="812" y="250" font-size="12.5" fill="#3C4043">= 144</text>
+  <text x="812" y="268" font-size="12.5" fill="#3C4043">blocks</text>
+  <text x="642" y="320" font-size="13" fill="#3C4043">블록당 10 × 10 px</text>
+  <text x="642" y="342" font-size="13" fill="#3C4043">블록 내 모션 픽셀 카운트</text>
+  <text x="642" y="368" font-size="13" font-weight="700" fill="#202124">quantize → 3-bit (0–7)</text>
+  <rect x="642" y="384" width="230" height="40" rx="8" fill="#FFFFFF" stroke="#F9AB00" stroke-width="1.6"/>
+  <text x="757" y="409" text-anchor="middle" font-size="13.5" font-weight="700" fill="#B06000">144 × 3-bit  /  frame</text>
+  <text x="642" y="452" font-size="11.5" fill="#5F6368">공간 압축 14400px → 144 feature</text>
+
+  <!-- arrow 3->4 -->
+  <line x1="894" y1="315" x2="940" y2="315" stroke="#3C4043" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="917" y="302" text-anchor="middle" font-size="11.5" fill="#5F6368">144 ×</text>
+  <text x="917" y="338" text-anchor="middle" font-size="11.5" fill="#5F6368">3-bit</text>
+
+  <!-- ============ Stage 4 : Temporal Buffer ============ -->
+  <g filter="url(#sh)">
+    <rect x="944" y="150" width="246" height="330" rx="14" fill="#E6F4EA" stroke="#34A853" stroke-width="2.5"/>
+  </g>
+  <text x="964" y="184" font-size="18" font-weight="700" fill="#1E7E34">④ Temporal Buffer</text>
+  <!-- stacked frames -->
+  <g>
+    <rect x="980" y="206" width="150" height="22" rx="3" fill="#FFFFFF" stroke="#34A853" stroke-width="1.4"/>
+    <rect x="988" y="232" width="150" height="22" rx="3" fill="#FFFFFF" stroke="#34A853" stroke-width="1.4"/>
+    <rect x="996" y="258" width="150" height="22" rx="3" fill="#FFFFFF" stroke="#34A853" stroke-width="1.4"/>
+    <text x="1071" y="298" text-anchor="middle" font-size="20" fill="#34A853" font-weight="700">⋮</text>
+    <rect x="1004" y="306" width="150" height="22" rx="3" fill="#D6ECDC" stroke="#34A853" stroke-width="1.6"/>
+  </g>
+  <text x="964" y="356" font-size="13" fill="#3C4043">20-프레임 롤링 버퍼</text>
+  <text x="964" y="378" font-size="13.5" font-weight="700" fill="#202124">144 × 20 = 2880</text>
+  <text x="964" y="398" font-size="13" fill="#3C4043">features (3-bit)</text>
+  <text x="964" y="430" font-size="12.5" fill="#1E7E34">20번째 프레임에서</text>
+  <text x="964" y="448" font-size="12.5" fill="#1E7E34">o_snn_start ▲ 발생</text>
+
+  <!-- arrow 4->5 -->
+  <line x1="1192" y1="315" x2="1238" y2="315" stroke="#3C4043" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="1215" y="302" text-anchor="middle" font-size="11.5" fill="#5F6368">2880</text>
+  <text x="1215" y="338" text-anchor="middle" font-size="11.5" fill="#5F6368">feat.</text>
+
+  <!-- ============ Stage 5 : SNN Core ============ -->
+  <g filter="url(#sh)">
+    <rect x="1242" y="150" width="448" height="330" rx="14" fill="#F3E8FD" stroke="#A142F4" stroke-width="2.5"/>
+  </g>
+  <text x="1262" y="184" font-size="18" font-weight="700" fill="#7B1FA2">⑤ Spiking Neural Core (snn_top)</text>
+  <text x="1262" y="208" font-size="12.5" fill="#5F6368">20 timesteps · 1 frame / step (LIF, integrate-and-fire)</text>
+
+  <!-- FC1 -->
+  <rect x="1262" y="226" width="180" height="86" rx="10" fill="#FFFFFF" stroke="#A142F4" stroke-width="1.8"/>
+  <text x="1352" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#7B1FA2">FC1</text>
+  <text x="1352" y="274" text-anchor="middle" font-size="13" fill="#202124">144 → 8  LIF</text>
+  <text x="1352" y="296" text-anchor="middle" font-size="12" fill="#5F6368">threshold = fc1_thr</text>
+
+  <!-- arrow FC1 -> FC2 -->
+  <line x1="1352" y1="312" x2="1352" y2="338" stroke="#3C4043" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <text x="1372" y="330" font-size="11" fill="#5F6368">8 spikes</text>
+
+  <!-- FC2 -->
+  <rect x="1262" y="340" width="180" height="86" rx="10" fill="#FFFFFF" stroke="#A142F4" stroke-width="1.8"/>
+  <text x="1352" y="366" text-anchor="middle" font-size="15" font-weight="700" fill="#7B1FA2">FC2</text>
+  <text x="1352" y="388" text-anchor="middle" font-size="13" fill="#202124">8 → 2  LIF</text>
+  <text x="1352" y="410" text-anchor="middle" font-size="12" fill="#5F6368">threshold = fc2_thr</text>
+
+  <!-- arrow FC2 -> outputs -->
+  <line x1="1442" y1="383" x2="1486" y2="383" stroke="#3C4043" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+  <!-- Outputs -->
+  <rect x="1490" y="226" width="184" height="200" rx="10" fill="#FFFFFF" stroke="#7B1FA2" stroke-width="1.8" stroke-dasharray="5 3"/>
+  <text x="1582" y="252" text-anchor="middle" font-size="14" font-weight="700" fill="#7B1FA2">Output</text>
+  <text x="1506" y="282" font-size="13" fill="#202124">spike_count_0</text>
+  <text x="1660" y="282" text-anchor="end" font-size="12.5" font-weight="700" fill="#C5221F">FLY</text>
+  <text x="1506" y="308" font-size="13" fill="#202124">spike_count_1</text>
+  <text x="1660" y="308" text-anchor="end" font-size="12.5" font-weight="700" fill="#1E7E34">NON-FLY</text>
+  <line x1="1506" y1="322" x2="1658" y2="322" stroke="#E0D0F0" stroke-width="1"/>
+  <text x="1506" y="348" font-size="13" fill="#202124">result = argmax</text>
+  <text x="1506" y="374" font-size="13" font-weight="700" fill="#202124">done ▲</text>
+  <text x="1506" y="404" font-size="11.5" fill="#5F6368">→ 트리거 시 CNN 활성</text>
+
+  <!-- footer note : clock gating -->
+  <rect x="332" y="506" width="858" height="40" rx="10" fill="#F1F3F4" stroke="#9AA0A6" stroke-width="1.2"/>
+  <text x="352" y="531" font-size="13" fill="#3C4043"><tspan font-weight="700" fill="#202124">Clock gating:</tspan>  frame_diff + SNN 은 하나의 게이팅 클럭 도메인(BUFGCE) — SNN 모드에서만 동작, CNN 모드에선 정지(상호배타)</text>
+
+  <text x="30" y="546" font-size="11" fill="#9AA0A6">160×90 = 14400 px</text>
+</svg>

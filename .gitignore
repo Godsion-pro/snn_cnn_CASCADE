@@ -1,0 +1,28 @@
+# =====================================================================
+# Vivado / Vitis 프로젝트 — 생성물(regenerable)·대용량 제외, 소스만 추적
+# =====================================================================
+
+# ---- Vivado 프로젝트 생성 출력 디렉토리 (대용량, 재생성 가능) ----
+hw_new_backup/hw_new/hw.cache/
+hw_new_backup/hw_new/hw.gen/
+hw_new_backup/hw_new/hw.runs/
+hw_new_backup/hw_new/hw.sim/
+hw_new_backup/hw_new/hw.ip_user_files/
+
+# ---- 일반 Vivado/Vitis 산출물 ----
+.Xil/
+**/.Xil/
+*.jou
+*.log
+*.str
+*.pb
+*.wdb
+*.wbt
+*.dcp
+*.rpx
+
+# ---- OS / Office 임시 파일 ----
+Thumbs.db
+Desktop.ini
+~$*
+*.tmp
