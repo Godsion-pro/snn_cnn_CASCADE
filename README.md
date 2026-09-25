@@ -31,11 +31,14 @@ Pcam 5C ─▶ 전처리(ISP·Gray 160×90·Frame Diff) ─▶ SNN(1차 판별) 
 
 ## 🎥 데모 영상
 
-실시간 드론 탐지 · 팬틸트 추적 데모:
+실시간 드론 탐지 · 팬틸트 추적 데모입니다.
 
-<video src="https://github.com/Godsion-pro/snn_cnn_CASCADE/raw/main/docs/demo.mp4" controls width="640"></video>
+### ▶ [데모 영상 재생하기 (docs/demo.mp4)](docs/demo.mp4)
 
-> ▶ 재생이 안 되면 [docs/demo.mp4](docs/demo.mp4) 에서 직접 확인하세요.
+> 위 링크를 클릭하면 GitHub 내장 플레이어로 재생됩니다.
+> <!-- 인라인 자동재생을 원하면: GitHub 웹에서 이 README 편집(✏️) → 이 자리에 demo.mp4 를
+>      드래그&드롭 → user-attachments URL 이 생성되어 플레이어가 인라인으로 박힙니다. -->
+
 
 ---
 
