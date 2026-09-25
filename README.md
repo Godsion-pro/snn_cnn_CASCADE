@@ -35,8 +35,6 @@ Pcam 5C ─▶ 전처리(ISP·Gray 160×90·Frame Diff) ─▶ SNN(1차 판별) 
 
 ![데모 영상](docs/demo.gif)
 
-> ▶ 전체 영상: [docs/demo.mp4](docs/demo.mp4)
-
 
 ---
 
