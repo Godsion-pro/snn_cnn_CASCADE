@@ -26,3 +26,7 @@ Thumbs.db
 Desktop.ini
 ~$*
 *.tmp
+
+# ---- repo 제외 (로컬엔 유지) ----
+*.pptx
+run_power_saif.tcl

@@ -29,6 +29,16 @@ Pcam 5C ─▶ 전처리(ISP·Gray 160×90·Frame Diff) ─▶ SNN(1차 판별) 
 
 ---
 
+## 🎥 데모 영상
+
+실시간 드론 탐지 · 팬틸트 추적 데모:
+
+<video src="https://github.com/Godsion-pro/snn_cnn_CASCADE/raw/main/docs/demo.mp4" controls width="640"></video>
+
+> ▶ 재생이 안 되면 [docs/demo.mp4](docs/demo.mp4) 에서 직접 확인하세요.
+
+---
+
 ## 핵심 성과
 
 | 항목 | 결과 |
@@ -104,10 +114,8 @@ snn_cnn_CASCADE/
 ├── CORE_IP/src/            # SNN 코어 RTL (snn_top, feature_extractor, Top, TB)
 ├── hw_new_backup/hw_new/
 │   └── hw.srcs/            # Vivado 소스 (RTL·블록디자인·제약·CNN RTL·TB)   ※ 생성물(.runs/.sim/.gen/.cache)은 .gitignore 제외
-├── docs/                   # 아키텍처·데이터플로우 다이어그램 (SVG/PNG)
-├── sim_data/               # 가중치/입력 프레임 hex (SNN·CNN weight, frames)
-├── run_power_saif.tcl      # SAIF 기반 전력 측정 플로우 (SNN+CNN OOC 합성→sim→report_power)
-└── 종합설계_포스터_찐마크.pptx
+├── docs/                   # 아키텍처·데이터플로우 다이어그램 (SVG/PNG) + 데모 영상
+└── sim_data/               # 가중치/입력 프레임 hex (SNN·CNN weight, frames)
 ```
 
 > Vivado 생성 디렉토리(`hw.runs`, `hw.sim`, `hw.gen`, `hw.cache`, `hw.ip_user_files`)는
@@ -118,7 +126,7 @@ snn_cnn_CASCADE/
 ## 빌드 / 재현
 
 - **Vivado**: `hw_new_backup/hw_new/hw.xpr` 열기 → Generate Bitstream (Zybo Z7-20 / `xc7z020clg400-1`)
-- **전력 측정(SAIF)**: `run_power_saif.tcl` — SNN+CNN 서브블록 OOC 합성 → post-synth functional sim으로 SAIF 생성 → `report_power` 적용
+- **전력 측정(SAIF)**: SNN+CNN 서브블록 OOC 합성 → post-synth functional sim으로 SAIF 생성 → `report_power` 적용
 - **소프트웨어(Vitis)**: PS에서 카메라·SNN/CNN 제어·팬틸트 추적 구동 (모드 전환은 GPIO `mode_sel`)
 
 ---
