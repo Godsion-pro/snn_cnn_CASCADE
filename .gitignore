@@ -30,3 +30,6 @@ Desktop.ini
 # ---- repo 제외 (로컬엔 유지) ----
 *.pptx
 run_power_saif.tcl
+
+# ---- 삭제된 프레임 데이터 ----
+fly_20260529_212626_176_frames_02m23s_02m26s/
