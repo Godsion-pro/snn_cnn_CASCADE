@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="39cm" height="12cm" viewBox="0 0 1560 480" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="aw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5F6368"/>
+    </marker>
+    <filter id="bsh" x="-8%" y="-8%" width="116%" height="124%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1560" height="480" fill="#FFFFFF"/>
+
+  <!-- title -->
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#202124">전체 시스템 블록 다이어그램</text>
+  <text x="368" y="40" font-size="14" fill="#5F6368">— 기능 블록 (Camera → SNN → out / Fly 시 CNN → 서보 추적)</text>
+
+  <!-- ===== Fly-active container (bottom lane) ===== -->
+  <rect x="544" y="262" width="1012" height="146" rx="12" fill="#F8F2FE" stroke="#B98BE8" stroke-width="1.4" stroke-dasharray="7 4"/>
+  <text x="556" y="402" font-size="12.5" fill="#8430CE">Fly 트리거 시에만 활성 · SNN↔CNN 클럭 게이팅(상호 배타)</text>
+
+  <!-- ================= TOP ROW (SNN path) ================= -->
+  <!-- A: Camera -->
+  <g filter="url(#bsh)"><rect x="40" y="90" width="205" height="105" rx="9" fill="#FFFFFF" stroke="#1A73E8" stroke-width="2.2"/></g>
+  <text x="142" y="126" text-anchor="middle" font-size="18" font-weight="700" fill="#1A56C4">Camera</text>
+  <text x="142" y="150" text-anchor="middle" font-size="12.5" fill="#3C4043">Pcam 5C · OV5640</text>
+  <text x="142" y="169" text-anchor="middle" font-size="12.5" fill="#3C4043">MIPI CSI-2</text>
+  <text x="237" y="187" text-anchor="end" font-size="10.5" fill="#9AA0A6">PL</text>
+
+  <!-- B: 전처리1 -->
+  <g filter="url(#bsh)"><rect x="300" y="90" width="205" height="105" rx="9" fill="#FFFFFF" stroke="#1A73E8" stroke-width="2.2"/></g>
+  <text x="402" y="126" text-anchor="middle" font-size="18" font-weight="700" fill="#1A56C4">전처리</text>
+  <text x="402" y="150" text-anchor="middle" font-size="12.5" fill="#3C4043">ISP · Gray 160×90</text>
+  <text x="402" y="169" text-anchor="middle" font-size="12.5" fill="#3C4043">Frame Difference (모션)</text>
+  <text x="497" y="187" text-anchor="end" font-size="10.5" fill="#9AA0A6">PL</text>
+
+  <!-- C: SNN -->
+  <g filter="url(#bsh)"><rect x="560" y="90" width="185" height="105" rx="9" fill="#FFFFFF" stroke="#188038" stroke-width="2.6"/></g>
+  <text x="652" y="128" text-anchor="middle" font-size="18" font-weight="700" fill="#0F7B34">SNN Core</text>
+  <text x="652" y="153" text-anchor="middle" font-size="12.5" fill="#3C4043">LIF SNN 추론</text>
+  <text x="652" y="171" text-anchor="middle" font-size="11.5" fill="#5F6368">144→8→2 (RTL IP)</text>
+  <text x="737" y="187" text-anchor="end" font-size="10.5" fill="#9AA0A6">PL</text>
+
+  <!-- D: Output -->
+  <g filter="url(#bsh)"><rect x="800" y="90" width="195" height="105" rx="9" fill="#FFFFFF" stroke="#5F6368" stroke-width="2.2"/></g>
+  <text x="897" y="126" text-anchor="middle" font-size="18" font-weight="700" fill="#3C4043">Output</text>
+  <text x="897" y="153" text-anchor="middle" font-size="13" fill="#188038" font-weight="700">Fly</text>
+  <text x="897" y="173" text-anchor="middle" font-size="13" fill="#C5221F" font-weight="700">/ Non-fly</text>
+
+  <!-- top wires -->
+  <line x1="245" y1="142" x2="298" y2="142" stroke="#5F6368" stroke-width="2.4" marker-end="url(#aw)"/>
+  <line x1="505" y1="142" x2="558" y2="142" stroke="#5F6368" stroke-width="2.4" marker-end="url(#aw)"/>
+  <line x1="745" y1="142" x2="798" y2="142" stroke="#5F6368" stroke-width="2.4" marker-end="url(#aw)"/>
+  <!-- ports -->
+  <rect x="241" y="138" width="8" height="8" fill="#5F6368"/><rect x="296" y="138" width="8" height="8" fill="#5F6368"/>
+  <rect x="501" y="138" width="8" height="8" fill="#5F6368"/><rect x="556" y="138" width="8" height="8" fill="#5F6368"/>
+  <rect x="741" y="138" width="8" height="8" fill="#5F6368"/><rect x="796" y="138" width="8" height="8" fill="#5F6368"/>
+
+  <!-- branch SNN -> bottom (Fly) -->
+  <polyline points="652,195 652,282" fill="none" stroke="#8430CE" stroke-width="2.6" marker-end="url(#aw)"/>
+  <rect x="648" y="191" width="8" height="8" fill="#8430CE"/>
+  <text x="664" y="240" font-size="12.5" font-weight="700" fill="#8430CE">Fly → CNN ON</text>
+
+  <!-- ================= BOTTOM ROW (CNN + control) ================= -->
+  <!-- E: 전처리2 -->
+  <g filter="url(#bsh)"><rect x="560" y="285" width="205" height="105" rx="9" fill="#FFFFFF" stroke="#1A73E8" stroke-width="2.2"/></g>
+  <text x="662" y="321" text-anchor="middle" font-size="18" font-weight="700" fill="#1A56C4">전처리</text>
+  <text x="662" y="345" text-anchor="middle" font-size="12.5" fill="#3C4043">Frame Buffer</text>
+  <text x="662" y="364" text-anchor="middle" font-size="12.5" fill="#3C4043">160×90 원본</text>
+  <text x="757" y="382" text-anchor="end" font-size="10.5" fill="#9AA0A6">PL</text>
+
+  <!-- F: CNN -->
+  <g filter="url(#bsh)"><rect x="820" y="285" width="215" height="105" rx="9" fill="#FFFFFF" stroke="#8430CE" stroke-width="2.6"/></g>
+  <text x="927" y="323" text-anchor="middle" font-size="18" font-weight="700" fill="#7B1FA2">CNN</text>
+  <text x="927" y="347" text-anchor="middle" font-size="12.5" fill="#3C4043">DroNet 객체검출</text>
+  <text x="927" y="366" text-anchor="middle" font-size="11.5" fill="#8430CE">(Fly 일 때 ON)</text>
+  <text x="1027" y="382" text-anchor="end" font-size="10.5" fill="#9AA0A6">PL+PS</text>
+
+  <!-- G: 서보모터 -->
+  <g filter="url(#bsh)"><rect x="1090" y="285" width="205" height="105" rx="9" fill="#FFFFFF" stroke="#E8710A" stroke-width="2.2"/></g>
+  <text x="1192" y="321" text-anchor="middle" font-size="17" font-weight="700" fill="#B45309">서보모터 제어</text>
+  <text x="1192" y="345" text-anchor="middle" font-size="12.5" fill="#3C4043">Pan / Tilt PWM</text>
+  <text x="1192" y="364" text-anchor="middle" font-size="11.5" fill="#5F6368">AXI-GPIO</text>
+  <text x="1287" y="382" text-anchor="end" font-size="10.5" fill="#9AA0A6">PS</text>
+
+  <!-- H: 표적 트래킹 -->
+  <g filter="url(#bsh)"><rect x="1350" y="285" width="190" height="105" rx="9" fill="#FFFFFF" stroke="#C5221F" stroke-width="2.2"/></g>
+  <text x="1445" y="321" text-anchor="middle" font-size="17" font-weight="700" fill="#B31412">표적 트래킹</text>
+  <text x="1445" y="345" text-anchor="middle" font-size="12.5" fill="#3C4043">실시간 추적</text>
+  <text x="1445" y="364" text-anchor="middle" font-size="11.5" fill="#5F6368">근접 시 레이저 ON</text>
+  <text x="1532" y="382" text-anchor="end" font-size="10.5" fill="#9AA0A6">PS</text>
+
+  <!-- bottom wires -->
+  <line x1="765" y1="337" x2="818" y2="337" stroke="#5F6368" stroke-width="2.4" marker-end="url(#aw)"/>
+  <line x1="1035" y1="337" x2="1088" y2="337" stroke="#5F6368" stroke-width="2.4" marker-end="url(#aw)"/>
+  <line x1="1295" y1="337" x2="1348" y2="337" stroke="#5F6368" stroke-width="2.4" marker-end="url(#aw)"/>
+  <rect x="761" y="333" width="8" height="8" fill="#5F6368"/><rect x="816" y="333" width="8" height="8" fill="#5F6368"/>
+  <rect x="1031" y="333" width="8" height="8" fill="#5F6368"/><rect x="1086" y="333" width="8" height="8" fill="#5F6368"/>
+  <rect x="1291" y="333" width="8" height="8" fill="#5F6368"/><rect x="1346" y="333" width="8" height="8" fill="#5F6368"/>
+</svg>
