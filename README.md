@@ -113,7 +113,8 @@ snn_cnn_CASCADE/
 ├── CORE_IP/src/            # SNN 코어 RTL (snn_top, feature_extractor, Top, TB)
 ├── hw_new_backup/hw_new/
 │   └── hw.srcs/            # Vivado 소스 (RTL·블록디자인·제약·CNN RTL·TB)   ※ 생성물(.runs/.sim/.gen/.cache)은 .gitignore 제외
-├── docs/                   # 아키텍처·데이터플로우 다이어그램 (SVG/PNG) + 데모 영상
+├── sw/                     # Vitis PS 소프트웨어 (main.cc): SNN/CNN 오케스트레이션·클럭게이팅·팬틸트 추적
+├── docs/                   # 아키텍처·데이터플로우 다이어그램 (SVG/PNG) + 데모 GIF
 └── sim_data/               # 가중치/입력 프레임 hex (SNN·CNN weight, frames)
 ```
 
@@ -126,7 +127,7 @@ snn_cnn_CASCADE/
 
 - **Vivado**: `hw_new_backup/hw_new/hw.xpr` 열기 → Generate Bitstream (Zybo Z7-20 / `xc7z020clg400-1`)
 - **전력 측정(SAIF)**: SNN+CNN 서브블록 OOC 합성 → post-synth functional sim으로 SAIF 생성 → `report_power` 적용
-- **소프트웨어(Vitis)**: PS에서 카메라·SNN/CNN 제어·팬틸트 추적 구동 (모드 전환은 GPIO `mode_sel`)
+- **소프트웨어(Vitis)**: [`sw/main.cc`](sw/main.cc) — PS(ARM)에서 카메라 초기화 · SNN/CNN 오케스트레이션 · 클럭 게이팅 모드 전환(GPIO `mode_sel`) · 팬틸트 추적 폐루프 구동
 
 ---
 
